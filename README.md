@@ -2,7 +2,16 @@
 
 [中文](#中文说明) | [English](#english)
 
-![Packet Highway](docs/images/packet-highway.png)
+## 动态演示 / Animated Demo
+
+![Packet Highway animated demo](docs/images/packet-highway-demo.gif)
+
+<details>
+<summary>完整静态效果图 / Full static preview</summary>
+
+![Packet Highway full preview](docs/images/packet-highway.png)
+
+</details>
 
 ## 中文说明
 
