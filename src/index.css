@@ -1,0 +1,450 @@
+@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+
+:root {
+  font-family: 'IBM Plex Mono', monospace;
+  color: #eef2eb;
+  background: #09100f;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  --glass: rgba(9, 15, 15, 0.82);
+  --line: rgba(226, 235, 223, 0.18);
+  --muted: #8d9b95;
+  --signal: #d6ff5f;
+  --danger: #ff564c;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  width: 100%;
+  min-width: 320px;
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+}
+
+button {
+  font: inherit;
+}
+
+.highway-shell,
+.highway-canvas {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.highway-shell {
+  isolation: isolate;
+  background: #07111b;
+}
+
+.scene-bg-gradient,
+.scene-guardian-bg {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.scene-bg-gradient {
+  z-index: 0;
+  background:
+    radial-gradient(circle at 30% 25%, rgba(0, 155, 232, 0.2), transparent 38%),
+    radial-gradient(circle at 78% 24%, rgba(221, 25, 72, 0.16), transparent 35%),
+    linear-gradient(180deg, #050b14 0%, #081625 58%, #07111b 100%);
+}
+
+.scene-guardian-bg {
+  z-index: 1;
+  background-image: url('/assets/packet.png');
+  background-repeat: no-repeat;
+  background-position: center top;
+  background-size: cover;
+  filter: saturate(1.02) contrast(1.04);
+}
+
+.scene-highway-slot {
+  position: absolute;
+  z-index: 2;
+  left: 50%;
+  top: 31%;
+  width: min(76vw, 1320px);
+  height: 34%;
+  transform: translateX(-50%);
+  pointer-events: auto;
+}
+
+.scene-highway-slot::before {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  left: 3%;
+  right: 3%;
+  bottom: 0;
+  height: 82%;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse at 22% 55%, rgba(0, 190, 255, 0.28), transparent 48%),
+    radial-gradient(ellipse at 78% 55%, rgba(255, 30, 82, 0.22), transparent 48%),
+    radial-gradient(ellipse at center, rgba(6, 25, 42, 0.58), transparent 68%);
+  filter: blur(22px);
+  opacity: 0.78;
+}
+
+.highway-canvas canvas {
+  display: block;
+  background: transparent;
+  filter: saturate(0.78) contrast(1.08);
+}
+
+.highway-shell::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 3;
+  background:
+    linear-gradient(90deg, rgba(2, 7, 13, 0.26), transparent 22%, transparent 78%, rgba(5, 3, 10, 0.28)),
+    linear-gradient(0deg, rgba(2, 7, 13, 0.5), transparent 30%);
+}
+
+.highway-header {
+  position: absolute;
+  z-index: 5;
+  top: 22px;
+  left: 26px;
+  pointer-events: none;
+}
+
+.highway-header p,
+.vehicle-card > p {
+  margin: 0 0 4px;
+  color: var(--signal);
+  font-size: 9px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.highway-header h1 {
+  margin: 0;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: clamp(30px, 3.4vw, 48px);
+  line-height: 0.82;
+  letter-spacing: -0.015em;
+  text-transform: uppercase;
+}
+
+.live-readout {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 13px;
+  color: #bdc7c1;
+  font-size: 9px;
+  letter-spacing: 0.12em;
+}
+
+.live-readout strong {
+  margin-left: 8px;
+  color: #ffffff;
+  font-weight: 500;
+}
+
+.drop-readout {
+  color: #e58173;
+}
+
+.live-dot,
+.paused-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--signal);
+  box-shadow: 0 0 12px var(--signal);
+}
+
+.paused-dot {
+  background: #f2b84b;
+  box-shadow: none;
+}
+
+.highway-legend {
+  position: absolute;
+  z-index: 5;
+  top: 54px;
+  right: 24px;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(72px, auto));
+  gap: 2px;
+  padding: 6px;
+  border: 1px solid var(--line);
+  background: var(--glass);
+  backdrop-filter: blur(12px);
+  color: #b8c1bc;
+  font-size: 8px;
+  text-transform: uppercase;
+}
+
+.data-source-bar {
+  position: absolute;
+  z-index: 6;
+  top: 104px;
+  left: 26px;
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  max-width: calc(100vw - 52px);
+  padding: 5px;
+  border: 1px solid var(--line);
+  background: var(--glass);
+  backdrop-filter: blur(14px);
+  font-size: 9px;
+  text-transform: uppercase;
+}
+
+.data-source-bar button {
+  padding: 6px 9px;
+  border: 0;
+  color: #9da9a3;
+  background: transparent;
+  cursor: pointer;
+  font-size: 9px;
+  text-transform: uppercase;
+}
+
+.data-source-bar button:hover,
+.data-source-bar button.active {
+  color: #09100f;
+  background: var(--signal);
+}
+
+.data-source-bar .file-button {
+  border-left: 1px solid var(--line);
+}
+
+.source-label {
+  padding: 0 7px;
+  color: #68746e;
+  letter-spacing: 0.12em;
+}
+
+.source-status {
+  max-width: min(380px, 35vw);
+  margin-left: 8px;
+  overflow: hidden;
+  color: #8d9b95;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.source-status.connected {
+  color: #9dcfba;
+}
+
+.source-status.error {
+  color: #ed796d;
+}
+
+.highway-legend button {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 4px 6px;
+  border: 0;
+  color: #aeb8b2;
+  background: transparent;
+  cursor: pointer;
+  font-size: 8px;
+  text-transform: uppercase;
+  transition: opacity 0.15s, background 0.15s;
+}
+
+.highway-legend button:hover,
+.highway-legend button.active {
+  color: #f0f5ee;
+  background: rgba(255, 255, 255, 0.07);
+}
+
+.legend-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 2px;
+  background: #aaa;
+}
+
+.highway-controls {
+  position: absolute;
+  z-index: 6;
+  bottom: 20px;
+  left: 50%;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 8px;
+  border: 1px solid var(--line);
+  background: var(--glass);
+  backdrop-filter: blur(14px);
+  transform: translateX(-50%);
+}
+
+.highway-controls button {
+  height: 34px;
+  padding: 0 12px;
+  border: 1px solid transparent;
+  color: #b7c1bc;
+  background: transparent;
+  cursor: pointer;
+  font-size: 10px;
+  text-transform: uppercase;
+}
+
+.highway-controls button:hover,
+.highway-controls button.active {
+  color: #0b1110;
+  background: var(--signal);
+}
+
+.highway-controls .primary-control {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border-color: rgba(214, 255, 95, 0.45);
+  color: #f3f8ef;
+}
+
+.primary-control span {
+  color: var(--signal);
+}
+
+.speed-controls {
+  display: flex;
+  padding-left: 7px;
+  border-left: 1px solid var(--line);
+}
+
+.speed-controls button {
+  min-width: 38px;
+  padding: 0 7px;
+}
+
+.vehicle-card {
+  position: absolute;
+  z-index: 6;
+  right: 24px;
+  bottom: 82px;
+  width: min(290px, calc(100vw - 48px));
+  padding: 16px;
+  border: 1px solid rgba(214, 255, 95, 0.32);
+  background: rgba(8, 14, 14, 0.92);
+  backdrop-filter: blur(15px);
+}
+
+.vehicle-card h2 {
+  margin: 0 0 14px;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 30px;
+  text-transform: uppercase;
+}
+
+.vehicle-card dl {
+  display: grid;
+  gap: 7px;
+  margin: 0;
+}
+
+.vehicle-card dl div {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  padding-top: 7px;
+  border-top: 1px solid var(--line);
+}
+
+.vehicle-card dt {
+  color: var(--muted);
+  font-size: 9px;
+  text-transform: uppercase;
+}
+
+.vehicle-card dd {
+  margin: 0;
+  font-size: 10px;
+  text-align: right;
+  text-transform: uppercase;
+}
+
+.vehicle-card dd.incident {
+  color: var(--danger);
+}
+
+.card-close {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 28px;
+  height: 28px;
+  border: 0;
+  color: #aab4ae;
+  background: transparent;
+  cursor: pointer;
+  font-size: 20px;
+}
+
+@media (max-width: 720px) {
+  .highway-header {
+    top: 16px;
+    left: 16px;
+  }
+
+  .highway-legend {
+    top: auto;
+    right: 12px;
+    bottom: 76px;
+    grid-template-columns: repeat(4, auto);
+    max-width: calc(100vw - 24px);
+  }
+
+  .data-source-bar {
+    top: 92px;
+    left: 16px;
+    right: 16px;
+    overflow-x: auto;
+  }
+
+  .source-status,
+  .source-label {
+    display: none;
+  }
+
+  .highway-controls {
+    bottom: 12px;
+    width: calc(100vw - 24px);
+    justify-content: center;
+  }
+}
+
+@media (max-width: 1440px) {
+  .scene-highway-slot {
+    top: 30%;
+    width: min(80vw, 1180px);
+    height: 35%;
+  }
+}
+
+@media (max-width: 1024px) {
+  .scene-guardian-bg {
+    background-position: center top;
+  }
+
+  .scene-highway-slot {
+    top: 31%;
+    width: 86vw;
+    height: 34%;
+  }
+}
